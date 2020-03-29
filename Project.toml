@@ -1,0 +1,7 @@
+name = "BlindBake"
+uuid = "f553a979-f94b-4d5f-83cd-60d30b68875d"
+authors = ["Vincent Laugier <vincent.laugier@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
