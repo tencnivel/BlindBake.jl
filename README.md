@@ -1,16 +1,15 @@
 # BlindBake.jl
 
 BlindBake is a Julia package that executes every function of a module on every
-available core available (`from i in 1:nprocs()`) with default mock arguments.
-This is useful when one wants to spare the users of a Julia app the lag that
-caused by the compilation of a method when called for the first time on a core.
+available core (`from i in 1:nprocs()`) with default mock arguments.
+This is useful when one wants to spare the users of a Julia app the lag caused by the compilation of a method when called for the first time on a core.
 
 Depending on your use case, you may find the following packages more useful:
 
 https://github.com/timholy/SnoopCompile.jl
 https://github.com/JuliaLang/PackageCompiler.jl
 
-BlindBake is not redundant with SnoopCompile because it execute the function.
+BlindBake is not redundant with SnoopCompile because it executes the method.
 
 ## Installation
 
@@ -98,8 +97,8 @@ The default values for the arguments are:
   * For numeric types (i.e. T <: Number): `0`
   * For String: `"Lorem Ipsum"`
   * For Date: `Dates.today()`
-  * For Enum: the first possible value of the enum
-  * For other types: the result of the call to the constructor (eg. `Date()`)
+  * For Enum: the first possible value of the enum: `first(instances(_type))`
+  * For other types: the result of the call to the constructor (eg. `MyStruct()`)
 
 ## Limitations
 
