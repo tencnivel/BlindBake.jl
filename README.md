@@ -18,6 +18,7 @@ BlindBake is not redundant with SnoopCompile because it execute the function.
 
 ## Usage
 
+
 ```
 using BlindBake
 BlindBake.invokeMethodsOfModule(MyModule)
@@ -30,6 +31,8 @@ using BlindBake
 BlindBake.invokeMethodsOfModule(MyModule
                                ;[function1])
 ```
+
+Also see `test/runtests.jl`
 
 ### HOWTO specify a special default value
 
