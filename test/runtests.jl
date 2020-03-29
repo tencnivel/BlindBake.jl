@@ -1,12 +1,14 @@
 using Pkg
 Pkg.activate(".")
 
-using Revise, Test
+using Revise, Test, Distributed
 
+addprocs(1)
+@everywhere push!(LOAD_PATH, "/home/vlaugier/CODE/BlindBake.jl/")
+@everywhere using BlindBake
 # Load a sample module
-include("sample-module/SampleModule.jl")
+@everywhere include("test/sample-module/SampleModule.jl")
 
-using BlindBake
 
 @testset "Test `invokeMethodsOfModule`" begin
     BlindBake.invokeMethodsOfModule(SampleModule.Controller
