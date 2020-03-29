@@ -9,7 +9,7 @@ Depending on your use case, you may find the following packages more useful:
   * https://github.com/timholy/SnoopCompile.jl
   * https://github.com/JuliaLang/PackageCompiler.jl
 
-BlindBake is not redundant with SnoopCompile because BlindBake executes the method while SnoopCompile only precompiles it.
+BlindBake is not redundant with SnoopCompile because BlindBake executes the method when SnoopCompile only precompiles it.
 
 ## Installation
 
