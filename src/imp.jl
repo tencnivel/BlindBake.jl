@@ -66,12 +66,15 @@ end
 function invokeMethod(_function::Function, args::Vector, procID::Int64)
 
     argsTypesForPrinting = join(string.(typeof.(args)),", ")
-    @info "Invoke $(_function)($argsTypesForPrinting) on procID[$procID]"
+    @info "# Invoke $(_function)($argsTypesForPrinting) on procID[$procID]"
 
     try
         future = @spawnat procID _function(args...)
-        fetch(future)
     catch e
+        # try-catch on the @spawnat is not enough because Exceptions on remote
+        #   computations are captured and rethrown locally. Therefore the calling
+        #   method needs to try-catch the call to this function. 
+        # see https://docs.julialang.org/en/v1/stdlib/Distributed/index.html#Distributed.RemoteException
         error(e)
     end
 end
@@ -84,7 +87,14 @@ end
 function invokeMethodOnAllProcs(_method::Method)
     args = createDefaultArguments(_method)
     for procID in 1:nprocs()
-        invokeMethod(_method, args, procID)
+        try
+            invokeMethod(_method, args, procID)
+        # try-catch on the @spawnat is not enough because Exceptions on remote
+        #   computations are captured and rethrown locally
+        # see https://docs.julialang.org/en/v1/stdlib/Distributed/index.html#Distributed.RemoteException
+        catch e
+            @debug "RemoteException was caught so that we can carry on."
+        end
     end
 end
 
