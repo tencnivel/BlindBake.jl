@@ -28,7 +28,7 @@ You can use the optional argument to skip some functions:
 ```
 using BlindBake
 BlindBake.invokeMethodsOfModule(MyModule
-                               ;[function1])
+                               ;excludeMethods = [function1])
 ```
 
 Also see `test/runtests.jl`
