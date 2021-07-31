@@ -35,8 +35,8 @@ function createDefaultArguments(method)
 
     argsAsVector = []
     for _type in sig
-        try
-            arg = createDefaultObject(getNonMissingTypeOfUnionType(_type))
+        arg = try
+           createDefaultObject(getNonMissingTypeOfUnionType(_type))
         catch e
             @warn e
             return nothing
