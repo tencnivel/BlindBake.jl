@@ -35,8 +35,14 @@ function createDefaultArguments(method)
 
     argsAsVector = []
     for _type in sig
+        try
+            arg = createDefaultObject(getNonMissingTypeOfUnionType(_type))
+        catch e
+            @warn e
+            return nothing
+        end
         push!(argsAsVector,
-              createDefaultObject(getNonMissingTypeOfUnionType(_type)))
+              arg)
     end
     argsAsVector
 end
@@ -73,7 +79,7 @@ function invokeMethod(_function::Function, args::Vector, procID::Int64)
     catch e
         # try-catch on the @spawnat is not enough because Exceptions on remote
         #   computations are captured and rethrown locally. Therefore the calling
-        #   method needs to try-catch the call to this function. 
+        #   method needs to try-catch the call to this function.
         # see https://docs.julialang.org/en/v1/stdlib/Distributed/index.html#Distributed.RemoteException
         error(e)
     end
@@ -86,6 +92,10 @@ end
 
 function invokeMethodOnAllProcs(_method::Method)
     args = createDefaultArguments(_method)
+    if isnothing(args)
+        @warn "Unable to create default arugments => Skip method[$(_method)]"
+        return
+    end
     for procID in 1:nprocs()
         try
             invokeMethod(_method, args, procID)
