@@ -30,7 +30,12 @@ end
 
 function createDefaultArguments(method)
     @info "Create default arguments for method[$(method.name)]"
-    sig = collect(method.sig.types)
+    sig = try
+            collect(method.sig.types)
+        catch e
+            @warn e
+            return nothing
+        end
     popfirst!(sig)
 
     argsAsVector = []
